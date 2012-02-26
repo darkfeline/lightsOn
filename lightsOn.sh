@@ -1,6 +1,8 @@
 #!/bin/bash
 # lightsOn.sh
 
+# fixed by darkfeline as per GNU GPL
+
 # Copyright (c) 2011 iye.cba at gmail com
 # url: https://github.com/iye/lightsOn
 # This script is licensed under GNU GPL version 2.0 or above
@@ -24,10 +26,10 @@
 # Modify these variables if you want this script to detect if Mplayer,
 # VLC or Firefox Flash Video are Fullscreen and disable
 # xscreensaver/kscreensaver and PowerManagement.
-mplayer_detection=0
+mplayer_detection=1
 vlc_detection=0
 firefox_flash_detection=1
-chromium_flash_detection=1
+chromium_flash_detection=0
 
 
 # YOU SHOULD NOT NEED TO MODIFY ANYTHING BELOW THIS LINE
@@ -64,11 +66,13 @@ checkFullscreen()
         activ_win_id=`DISPLAY=:0.${display} xprop -root _NET_ACTIVE_WINDOW`
         activ_win_id=${activ_win_id#*# }
         # Skip invalid window ids
-        if [ "$activ_win_id" = "0x0" ]; then
-             continue
-        fi
-        # Check if Active Window (the foremost window) is in fullscreen state
-        isActivWinFullscreen=`DISPLAY=:0.${display} xprop -id $activ_win_id | grep _NET_WM_STATE_FULLSCREEN`
+        for activ_win_id in `echo $activ_win_id | awk -F ', ' '{for(i=1;i<=NF;i++){printf "%s ", $i}}'`
+        do
+            if [ "$activ_win_id" = "0x0" ]; then
+                 continue
+            fi
+            # Check if Active Window (the foremost window) is in fullscreen state
+            isActivWinFullscreen=`DISPLAY=:0.${display} xprop -id $activ_win_id | grep _NET_WM_STATE_FULLSCREEN`
             if [[ "$isActivWinFullscreen" = *NET_WM_STATE_FULLSCREEN* ]];then
                 isAppRunning
                 var=$?
@@ -76,6 +80,7 @@ checkFullscreen()
                     delayScreensaver
                 fi
             fi
+        done
     done
 }
 
