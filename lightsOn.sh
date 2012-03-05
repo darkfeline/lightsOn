@@ -1,8 +1,6 @@
 #!/bin/bash
 # lightsOn.sh
 
-# fixed by darkfeline as per GNU GPL
-
 # Copyright (c) 2011 iye.cba at gmail com
 # url: https://github.com/iye/lightsOn
 # This script is licensed under GNU GPL version 2.0 or above
@@ -26,10 +24,10 @@
 # Modify these variables if you want this script to detect if Mplayer,
 # VLC or Firefox Flash Video are Fullscreen and disable
 # xscreensaver/kscreensaver and PowerManagement.
-mplayer_detection=1
+mplayer_detection=0
 vlc_detection=0
 firefox_flash_detection=1
-chromium_flash_detection=0
+chromium_flash_detection=1
 
 
 # YOU SHOULD NOT NEED TO MODIFY ANYTHING BELOW THIS LINE
